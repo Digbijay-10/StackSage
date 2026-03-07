@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import fetch from 'node-fetch';
 
-const API_KEY = "AIzaSyCAKTPXFW1rh1U9iZCzk0Nl5ApWYtmNjk4";
+const API_KEY = "";
 
 export function activate(context: vscode.ExtensionContext) {
 
