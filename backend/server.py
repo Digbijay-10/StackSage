@@ -1,5 +1,8 @@
+from email.mime import text
+
 from flask import Flask, request, jsonify
 import requests
+import re
 
 API_KEY = ""
 
@@ -47,16 +50,26 @@ def fix():
     code = data.get("code", "")
 
     prompt = f"""
-You are an expert Python debugger.
+Explain the code briefly.
 
-Fix all errors in the code.
-Return FULL corrected code.
-Make sure code runs without errors.
+Rules:
+- Keep explanation short
+- Max 4 lines
+- No extra text
+- No long paragraphs
+- Be clear and direct
 
-Broken code:
+Format:
+
+Mistake:
+Fix:
+Meaning:
+
+Code:
 {code}
 
-Correct code:
+Error:
+{error}
 """
 
     url = (
@@ -214,14 +227,22 @@ Error:
 
     r = requests.post(url, json=body)
     result = r.json()
-
+    print("EXPLAIN RESPONSE:", result)
     try:
         text = result["candidates"][0]["content"]["parts"][0]["text"]
     except:
         text = ""
 
+    import re
+
+   # remove markdown bold only
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+
+    # remove code blocks
+    text = text.replace("```", "")
+
     return jsonify({
-        "explanation": text.strip()
+    "explanation": text.strip()
     })
 
 

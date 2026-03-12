@@ -9,15 +9,46 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:pyweb-doctor.fixCode",
+    "onCommand:pyweb-doctor.reverseDebug",
+    "onCommand:pyweb-doctor.showExplanation"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "pyweb-doctor.fixCode",
         "title": "Fix with PyWeb Doctor"
+      },
+      {
+        "command": "pyweb-doctor.reverseDebug",
+        "title": "Reverse Debug with PyWeb Doctor"
+      },
+      {
+        "command": "pyweb-doctor.showExplanation",
+        "title": "Show Explanation (PyWeb Doctor)"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "pyweb-doctor.fixCode",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        },
+        {
+          "command": "pyweb-doctor.reverseDebug",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        },
+        {
+          "command": "pyweb-doctor.showExplanation",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
